@@ -24,7 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // DOM Elements - Chart
     const symbolInput = document.getElementById("symbolInput");
     const exchangeSelect = document.getElementById("exchangeSelect");
-    const btnLoadChart = document.getElementById("btnLoadChart");
     const btnOpenExternal = document.getElementById("btnOpenExternal");
 
     // DOM Elements - Admin Panel
@@ -111,7 +110,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         mainDashboard.style.display = "grid";
-        loadTradingViewWidget();
     };
 
     const showLoginOverlay = () => {
@@ -185,7 +183,6 @@ document.addEventListener("DOMContentLoaded", () => {
         tabAdminBtn.classList.remove("active");
         panelChart.style.display = "flex";
         panelAdmin.style.display = "none";
-        loadTradingViewWidget(); // Force reload to fit wrapper
     });
 
     tabAdminBtn.addEventListener("click", () => {
@@ -199,72 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================================
     // TRADINGVIEW INTEGRATION SERVICE
     // ==========================================================
-    const getSymbolFormatted = () => {
-        const symbol = symbolInput.value.toUpperCase().trim() || "AFCONS";
-        const exchange = exchangeSelect.value;
-        return `${exchange}:${symbol}`;
-    };
-
-    const loadTradingViewWidget = () => {
-        const tvSymbol = getSymbolFormatted();
-        const container = document.getElementById("tradingviewWidget");
-        if (!container) return;
-
-        container.innerHTML = ""; // Clear existing
-
-        const uniqueId = `tv_widget_embed_${Date.now()}`;
-        const div = document.createElement("div");
-        div.id = uniqueId;
-        div.style.width = "100%";
-        div.style.height = "100%";
-        container.appendChild(div);
-
-        if (typeof TradingView !== "undefined" && TradingView.widget) {
-            try {
-                new TradingView.widget({
-                    "width": "100%",
-                    "height": "100%",
-                    "symbol": tvSymbol,
-                    "interval": "5",
-                    "timezone": "Asia/Kolkata",
-                    "theme": "dark",
-                    "style": "1",
-                    "locale": "en",
-                    "enable_publishing": false,
-                    "hide_side_toolbar": false,
-                    "allow_symbol_change": true,
-                    "container_id": uniqueId
-                });
-                console.log(`[+] Live widget injected: ${tvSymbol}`);
-            } catch (e) {
-                loadIframeFallback(div, tvSymbol);
-            }
-        } else {
-            loadIframeFallback(div, tvSymbol);
-        }
-    };
-
-    const loadIframeFallback = (container, symbol) => {
-        if (!container) return;
-        container.innerHTML = `
-            <iframe 
-                src="https://s.tradingview.com/widgetembed/?symbol=${encodeURIComponent(symbol)}&interval=5&theme=dark&style=1&timezone=Asia%2FKolkata&locale=en" 
-                style="width: 100%; height: 100%; border: none; border-radius: 6px;" 
-                allowtransparency="true" 
-                scrolling="no" 
-                allowfullscreen>
-            </iframe>
-        `;
-    };
-
-    // Load Chart Actions
-    btnLoadChart.addEventListener("click", loadTradingViewWidget);
-    symbolInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") loadTradingViewWidget();
-    });
-
-    // Premium Open Chart in New Tab Action (Bypasses framing and includes the user's customized layout)
-    btnOpenExternal.addEventListener("click", () => {
+    const launchChartInNewTab = () => {
         const symbol = symbolInput.value.toUpperCase().trim() || "AFCONS";
         const exchange = exchangeSelect.value;
         const fullSymbol = `${exchange}:${symbol}`;
@@ -272,6 +204,14 @@ document.addEventListener("DOMContentLoaded", () => {
         // This links directly to the user's custom layout layout SroZAiWY
         const customLayoutUrl = `https://in.tradingview.com/chart/SroZAiWY/?symbol=${encodeURIComponent(fullSymbol)}`;
         window.open(customLayoutUrl, "_blank");
+    };
+
+    // Launch actions
+    btnOpenExternal.addEventListener("click", launchChartInNewTab);
+    symbolInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+            launchChartInNewTab();
+        }
     });
 
     // ==========================================================

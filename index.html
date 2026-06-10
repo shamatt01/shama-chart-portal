@@ -94,36 +94,39 @@
         <main class="content-area">
             
             <!-- A. PREMIUM CHART WORKSPACE -->
-            <section id="panelChart" class="dashboard-panel">
-                <div class="panel-header">
-                    <div>
-                        <h2 class="panel-title">📡 Shama Premium Active Radar Chart</h2>
-                        <p class="panel-sub">Real-time TradingView indicator dashboard</p>
-                    </div>
-                </div>
-                
-                <!-- Chart Controls Bar -->
-                <div class="chart-controls-bar">
-                    <div style="display: flex; gap: 10px; align-items: center; flex: 1; max-width: 500px;">
-                        <span class="control-label">Symbol:</span>
-                        <input type="text" id="symbolInput" class="symbol-input" placeholder="e.g. RELIANCE, TCS, AFCONS..." value="AFCONS">
-                        <select id="exchangeSelect" class="exchange-select">
-                            <option value="NSE">NSE</option>
-                            <option value="BSE">BSE</option>
-                        </select>
-                        <button id="btnLoadChart" class="btn-load-chart"><i class="fa-solid fa-arrows-rotate"></i> Load Chart</button>
+            <section id="panelChart" class="dashboard-panel search-hub-panel">
+                <div class="search-hub-container">
+                    <div class="search-hub-header">
+                        <i class="fa-solid fa-tower-broadcast search-hub-icon"></i>
+                        <h2 class="search-hub-title">SHAMA ALPHA RADAR</h2>
+                        <p class="search-hub-sub">Enter stock symbol to launch your premium indicator chart</p>
                     </div>
                     
-                    <!-- Direct Open Button -->
-                    <button id="btnOpenExternal" class="btn-open-external">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i> 🚀 OPEN PREMIUM CHART IN NEW TAB
-                    </button>
-                </div>
-                
-                <!-- Chart Frame Box -->
-                <div class="chart-iframe-wrapper">
-                    <!-- High performance fallback widget -->
-                    <div id="tradingviewWidget" style="width: 100%; height: 100%;"></div>
+                    <div class="search-card">
+                        <div class="search-row">
+                            <div class="input-field symbol-field">
+                                <label for="symbolInput"><i class="fa-solid fa-magnifying-glass-chart"></i> Stock Symbol</label>
+                                <input type="text" id="symbolInput" class="symbol-input" placeholder="e.g. AFCONS, RELIANCE, TCS..." value="AFCONS" autocomplete="off">
+                            </div>
+                            
+                            <div class="input-field exchange-field">
+                                <label for="exchangeSelect"><i class="fa-solid fa-building-columns"></i> Exchange</label>
+                                <select id="exchangeSelect" class="exchange-select">
+                                    <option value="NSE">NSE</option>
+                                    <option value="BSE">BSE</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <button id="btnOpenExternal" class="btn-launch-premium">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> OPEN PREMIUM CHART IN NEW TAB
+                        </button>
+                    </div>
+                    
+                    <div class="search-hub-info">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>This launches your custom TradingView indicator layout (layout: <strong>SroZAiWY</strong>) directly in a new tab.</span>
+                    </div>
                 </div>
             </section>
 
@@ -191,7 +194,6 @@
     </div>
 
     <!-- Script references -->
-    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
