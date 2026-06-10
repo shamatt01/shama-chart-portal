@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // DOM Elements - Chart
     const symbolInput = document.getElementById("symbolInput");
     const exchangeSelect = document.getElementById("exchangeSelect");
+    const timeframeSelect = document.getElementById("timeframeSelect");
     const btnOpenExternal = document.getElementById("btnOpenExternal");
 
     // DOM Elements - Admin Panel
@@ -199,10 +200,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const launchChartInNewTab = () => {
         const symbol = symbolInput.value.toUpperCase().trim() || "AFCONS";
         const exchange = exchangeSelect.value;
+        const timeframe = timeframeSelect.value;
         const fullSymbol = `${exchange}:${symbol}`;
         
-        // This links directly to the user's custom layout layout SroZAiWY
-        const customLayoutUrl = `https://in.tradingview.com/chart/SroZAiWY/?symbol=${encodeURIComponent(fullSymbol)}`;
+        // This links directly to the user's custom layout layout SroZAiWY with selected interval
+        const customLayoutUrl = `https://in.tradingview.com/chart/SroZAiWY/?symbol=${encodeURIComponent(fullSymbol)}&interval=${timeframe}`;
         window.open(customLayoutUrl, "_blank");
     };
 
