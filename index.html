@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHAMA ALPHA RADAR - Secure Premium Chart Portal</title>
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- ==========================================================================
+         1. LOGIN SCREEN OVERLAY (Frosted Glass & Neon Glow)
+         ========================================================================== -->
+    <div id="loginOverlay" class="login-overlay">
+        <div class="login-box">
+            <div class="login-header-visual">
+                <div class="neon-radar-glow"></div>
+                <i class="fa-solid fa-circle-nodes login-icon-radar"></i>
+            </div>
+            
+            <h2 class="login-title">SHAMA ALPHA RADAR</h2>
+            <p class="login-subtitle">Premium Indicator Access System</p>
+            
+            <form id="loginForm" class="login-form">
+                <div class="input-group">
+                    <label for="loginUser"><i class="fa-solid fa-user-shield"></i> User ID</label>
+                    <input type="text" id="loginUser" required placeholder="Enter User ID..." autocomplete="off">
+                </div>
+                
+                <div class="input-group">
+                    <label for="loginPass"><i class="fa-solid fa-lock"></i> Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="loginPass" required placeholder="Enter Password...">
+                        <button type="button" id="btnTogglePass" class="toggle-pass-btn">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="loginErrorMsg" class="login-error-msg" style="display: none;">
+                    <i class="fa-solid fa-circle-exclamation"></i> <span>Invalid Credentials!</span>
+                </div>
+                
+                <button type="submit" id="btnLoginSubmit" class="login-btn">
+                    <i class="fa-solid fa-shield-halved"></i> SECURE SIGN IN
+                </button>
+            </form>
+            
+            <div class="login-footer">
+                <span>Shama Radar System &copy; 2026</span>
+                <span>Authorized Access Only</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+         2. MAIN SECURE APPLICATION VIEWPORT (Hidden initially)
+         ========================================================================== -->
+    <div id="mainDashboard" class="main-dashboard" style="display: none;">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <i class="fa-solid fa-bolt brand-icon"></i>
+                <div>
+                    <h1 class="brand-name">SHAMA ALPHA</h1>
+                    <span class="brand-sub">RADAR SYSTEM</span>
+                </div>
+            </div>
+            
+            <div class="user-card">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="user-details">
+                    <span id="userName" class="user-fullname">Loading...</span>
+                    <span id="userRole" class="user-badge">User</span>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <button id="tabChartBtn" class="nav-item active"><i class="fa-solid fa-chart-line"></i> Premium Chart</button>
+                <button id="tabAdminBtn" class="nav-item admin-only" style="display: none;"><i class="fa-solid fa-user-lock"></i> Admin Panel 👑</button>
+            </nav>
+            
+            <button id="btnLogout" class="btn-logout">
+                <i class="fa-solid fa-power-off"></i> Sign Out
+            </button>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="content-area">
+            
+            <!-- A. PREMIUM CHART WORKSPACE -->
+            <section id="panelChart" class="dashboard-panel">
+                <div class="panel-header">
+                    <div>
+                        <h2 class="panel-title">📡 Shama Premium Active Radar Chart</h2>
+                        <p class="panel-sub">Real-time TradingView indicator dashboard</p>
+                    </div>
+                </div>
+                
+                <!-- Chart Controls Bar -->
+                <div class="chart-controls-bar">
+                    <div style="display: flex; gap: 10px; align-items: center; flex: 1; max-width: 500px;">
+                        <span class="control-label">Symbol:</span>
+                        <input type="text" id="symbolInput" class="symbol-input" placeholder="e.g. RELIANCE, TCS, AFCONS..." value="AFCONS">
+                        <select id="exchangeSelect" class="exchange-select">
+                            <option value="NSE">NSE</option>
+                            <option value="BSE">BSE</option>
+                        </select>
+                        <button id="btnLoadChart" class="btn-load-chart"><i class="fa-solid fa-arrows-rotate"></i> Load Chart</button>
+                    </div>
+                    
+                    <!-- Direct Open Button -->
+                    <button id="btnOpenExternal" class="btn-open-external">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> 🚀 OPEN PREMIUM CHART IN NEW TAB
+                    </button>
+                </div>
+                
+                <!-- Chart Frame Box -->
+                <div class="chart-iframe-wrapper">
+                    <!-- High performance fallback widget -->
+                    <div id="tradingviewWidget" style="width: 100%; height: 100%;"></div>
+                </div>
+            </section>
+
+            <!-- B. ADMIN PANEL WORKSPACE (Accessible only to Admin role) -->
+            <section id="panelAdmin" class="dashboard-panel" style="display: none;">
+                <div class="panel-header">
+                    <div>
+                        <h2 class="panel-title">👑 Admin Control Center</h2>
+                        <p class="panel-sub">Manage user accounts, passwords, and permissions</p>
+                    </div>
+                    <button id="btnShowAddUser" class="btn-add-user">
+                        <i class="fa-solid fa-user-plus"></i> Add New Account
+                    </button>
+                </div>
+                
+                <!-- Alert box -->
+                <div id="adminAlert" class="admin-alert" style="display: none;"></div>
+
+                <!-- Add User Form (Collapsible) -->
+                <div id="addUserBox" class="add-user-box" style="display: none;">
+                    <h3>➕ Create User Account</h3>
+                    <form id="addUserForm" class="add-user-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="newUserName">Display Name</label>
+                                <input type="text" id="newUserName" required placeholder="e.g. Rahul Kumar">
+                            </div>
+                            <div class="form-group">
+                                <label for="newUserId">User ID (Login Name)</label>
+                                <input type="text" id="newUserId" required placeholder="e.g. rahul123">
+                            </div>
+                            <div class="form-group">
+                                <label for="newUserPass">Login Password</label>
+                                <input type="text" id="newUserPass" required placeholder="e.g. password123">
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 15px;">
+                            <button type="button" id="btnCancelAddUser" class="btn-sec">Cancel</button>
+                            <button type="submit" class="btn-prim">Create Account</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Users List Table -->
+                <div class="users-table-wrapper">
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>User ID</th>
+                                <th>Role</th>
+                                <th>Created Date</th>
+                                <th>Status</th>
+                                <th style="text-align: right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <!-- Filled dynamically by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Script references -->
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+[
+  {
+    "id": "1",
+    "username": "shama786",
+    "password": "$2b$10$1T.P8647O51RcwsByEqgUORYLhh48r0eu.R/DzLlKv50mPRPIvpY.",
+    "role": "ADMIN",
+    "name": "Shama Admin",
+    "blocked": false,
+    "createdAt": "10/06/2026"
+  }
+]
