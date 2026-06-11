@@ -198,9 +198,17 @@ document.addEventListener("DOMContentLoaded", () => {
     // TRADINGVIEW INTEGRATION SERVICE
     // ==========================================================
     const launchChartInNewTab = () => {
-        const symbol = symbolInput.value.toUpperCase().trim() || "AFCONS";
+        let symbol = symbolInput.value.toUpperCase().trim() || "AFCONS";
         const exchange = exchangeSelect.value;
         const timeframe = timeframeSelect.value;
+        
+        // Auto-correct crypto pairs if they only type BTC, ETH, SOL, etc.
+        if (exchange === "BINANCE" || exchange === "BITSTAMP") {
+            if (symbol === "BTC" || symbol === "ETH" || symbol === "SOL" || symbol === "XRP") {
+                symbol = symbol + (exchange === "BINANCE" ? "USDT" : "USD");
+            }
+        }
+        
         const fullSymbol = `${exchange}:${symbol}`;
         
         // This links directly to the user's custom layout layout SroZAiWY with selected interval
